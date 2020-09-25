@@ -1,0 +1,31 @@
+{
+  "name": "crud",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "start:dev": "nodemon ./src/index.js",
+    "docker:up": "docker-compose up -d",
+    "lint": "eslint src",
+    "docker:down": "docker-compose down",
+    "migrate:make": "yarn knex migrate:make",
+    "migrate:rollback": "yarn knex migrate:rollback",
+    "migrate:latest": "yarn knex migrate:latest"
+  },
+  "dependencies": {
+    "@hapi/joi": "17.1.1",
+    "body-parser": "^1.19.0",
+    "dotenv": "8.2.0",
+    "express": "4.17.1",
+    "knex": "0.21.5",
+    "morgan": "1.10.0",
+    "mysql2": "2.2.5"
+  },
+  "devDependencies": {
+    "eslint": "7.9.0",
+    "eslint-config-airbnb-base": "14.2.0",
+    "eslint-plugin-import": "2.22.0",
+    "nodemon": "2.0.4"
+  }
+}

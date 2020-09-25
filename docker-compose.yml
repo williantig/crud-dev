@@ -1,0 +1,35 @@
+version: '3'
+
+networks:
+  development:
+    driver: bridge
+
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: crud-db-mysql
+    environment:
+        MYSQL_USER: $DB_USER
+        MYSQL_PASSWORD: $DB_PASSWORD
+        MYSQL_DATABASE: $DB_NAME
+        MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+    volumes:
+        - ./mysql:/var/lib/mysql
+      
+    ports:
+      - 3306:3306
+
+  webservice:
+    build: .
+    container_name: crud-webservice
+    volumes:
+      - .:/home/node/app
+    env_file:
+      - .env
+    networks:
+      - development
+    ports:
+      - 3000:3000
+    command: 'bash -c "yarn install && yarn start"'
+    
