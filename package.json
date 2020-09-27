@@ -7,25 +7,32 @@
     "start": "node ./src/index.js",
     "start:dev": "nodemon ./src/index.js",
     "docker:up": "docker-compose up -d",
+    "test": "mocha ./tests",
     "lint": "eslint src",
     "docker:down": "docker-compose down",
-    "migrate:make": "yarn knex migrate:make",
-    "migrate:rollback": "yarn knex migrate:rollback",
-    "migrate:latest": "yarn knex migrate:latest"
+    "migrate:make": "knex migrate:make",
+    "migrate:rollback": "knex migrate:rollback",
+    "migrate:latest": "knex migrate:latest"
   },
   "dependencies": {
-    "@hapi/joi": "17.1.1",
-    "body-parser": "^1.19.0",
+    "body-parser": "1.19.0",
+    "bookshelf": "^1.2.0",
     "dotenv": "8.2.0",
     "express": "4.17.1",
-    "knex": "0.21.5",
+    "joi": "17.2.1",
+    "knex": "^0.21.5",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.0",
     "morgan": "1.10.0",
     "mysql2": "2.2.5"
   },
   "devDependencies": {
+    "chai": "4.2.0",
+    "chai-http": "4.3.0",
     "eslint": "7.9.0",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-plugin-import": "2.22.0",
-    "nodemon": "2.0.4"
+    "mocha": "8.1.3",
+    "nodemon": "^2.0.4"
   }
 }

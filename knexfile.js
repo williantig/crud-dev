@@ -3,7 +3,8 @@ require('dotenv').config();
 const {
   NODE_ENV,
   DB_NAME,
-  DB_ROOT_PASSWORD,
+  DB_USER,
+  DB_PASSWORD,
 } = process.env;
 
 const config = {
@@ -11,10 +12,10 @@ const config = {
   client: 'mysql2',
   connection: {
     database: DB_NAME,
-    host: 'localhost',
+    host: '172.23.48.1',
     port: '3306',
-    user: 'root',
-    password: DB_ROOT_PASSWORD,
+    user: DB_USER,
+    password: DB_PASSWORD,
     decimalNumbers: true,
   },
   migrations: {
