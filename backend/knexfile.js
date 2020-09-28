@@ -11,9 +11,9 @@ const config = {
   client: 'mysql2',
   connection: {
     database: DB_NAME,
-    host: '172.23.48.1',
     port: '3306',
     user: DB_USER,
+    host: 'host.docker.internal',
     password: DB_PASSWORD,
     decimalNumbers: true,
   },

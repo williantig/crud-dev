@@ -29,6 +29,13 @@ services:
       - .env
     networks:
       - development
+    environment:
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWORD
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
     ports:
       - 3000:3000
-    command: 'bash -c "yarn install && yarn start"'
+    command: 'bash -c "yarn install && yarn start:docker"'
+    depends_on:
+      - "mysql"

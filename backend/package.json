@@ -6,15 +6,16 @@
   "scripts": {
     "start": "node ./src/index.js",
     "start:dev": "nodemon ./src/index.js",
-    "docker:up": "docker-compose up -d",
+    "start:docker": "yarn migrate:latest && yarn seed && yarn start",
     "test": "mocha ./tests",
     "lint": "eslint src",
+    "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "migrate:make": "knex migrate:make",
+    "migrate:latest": "knex migrate:latest",
     "migrate:rollback": "knex migrate:rollback",
     "seed:make": "knex seed:make",
-    "seed": "knex seed:run",
-    "migrate:latest": "knex migrate:latest"
+    "seed": "knex seed:run"
   },
   "dependencies": {
     "body-parser": "1.19.0",
@@ -26,7 +27,7 @@
     "knex": "0.21.6",
     "moment": "2.29.0",
     "morgan": "1.10.0",
-    "faker": "^5.1.0",
+    "faker": "5.1.0",
     "mysql2": "2.2.5"
   },
   "devDependencies": {
