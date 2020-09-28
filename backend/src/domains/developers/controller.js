@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const Developer = require('./model');
 
 const create = async (req, res) => {
@@ -19,12 +21,14 @@ const list = async (req, res) => {
       age, hobby, birthday,
       sex,
     } = req.query;
+
     const developers = await Developer.query((qb) => {
       if (age) qb.where('age', age);
       if (sex) qb.where('sex', sex);
       if (birthday) qb.where('birthday', birthday);
       if (name) qb.where('name', 'LIKE', `%${name}%`);
       if (hobby) qb.where('hobby', 'LIKE', `%${hobby}%`);
+      qb.orderBy('created_at', 'desc');
     })
       .fetchPage({
         page,
@@ -38,20 +42,48 @@ const list = async (req, res) => {
     console.error(ex);
   }
 };
+
 const update = async (req, res) => {
   try {
     const { body, params } = req;
     const { id } = params;
-    const developer = await Developer({ id }).save(body);
-    res.json(developer.toJSON());
+
+    const developer = await new Developer({ id }).fetch();
+
+    if (!developer) {
+      res.sendStatus(400);
+    }
+
+    const updatedDeveloper = await developer.save({
+      ...body,
+      birthday: moment(body.birthday).toDate(),
+    }, { method: 'update', patch: true });
+
+    res.json(updatedDeveloper.toJSON());
   } catch (ex) {
     console.error(ex);
     res.sendStatus(400);
   }
 };
 
-const deleteDeveloper = (req, res) => {
-  res.send(200);
+const deleteDeveloper = async (req, res) => {
+  try {
+    const { params } = req;
+    const { id } = params;
+
+    const developer = await new Developer({ id }).fetch();
+
+    if (!developer) {
+      res.sendStatus(400);
+    }
+
+    developer.destroy();
+
+    res.sendStatus(200);
+  } catch (ex) {
+    console.error(ex);
+    res.sendStatus(400);
+  }
 };
 
 module.exports = {

@@ -7,7 +7,7 @@ const route = express.Router();
 route
   .get('/developers', developersController.list)
   .post('/developers', [developersValidators.create, developersController.create])
-  .put('/developers/:id', developersController.update)
+  .put('/developers/:id', [developersValidators.update, developersController.update])
   .delete('/developers/:id', developersController.deleteDeveloper);
 
 module.exports = route;

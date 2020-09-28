@@ -10,6 +10,7 @@ exports.up = function (knex) {
     table.string('name', 200).notNullable();
     table.enum('sex', ['M', 'F', 'X']).notNullable();
     table.date('birthday').notNullable();
+    table.integer('age').notNullable();
     table.specificType('hobby', 'char(50)').defaultTo(null);
     table.timestamps(null, true);
     table.dateTime('deleted_at');

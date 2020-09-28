@@ -1,14 +1,13 @@
 require('dotenv').config();
 
 const {
-  NODE_ENV,
   DB_NAME,
   DB_USER,
   DB_PASSWORD,
 } = process.env;
 
 const config = {
-  debug: NODE_ENV === 'development',
+  debug: true,
   client: 'mysql2',
   connection: {
     database: DB_NAME,
