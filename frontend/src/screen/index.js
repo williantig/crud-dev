@@ -85,6 +85,12 @@ function App() {
     } : {}
   ), [pagination, requestDevelopers]);
 
+  const extraHeader = useMemo(() => ([
+    <Button key="1" type="primary" icon={<PlusOutlined />} onClick={handleAddNewDeveloper}>
+      Adicionar
+    </Button>,
+  ]), [handleAddNewDeveloper]);
+
   const handleEditDeveloper = useCallback(developer => {
     $modalRef.current.show(developer);
   }, []);
@@ -129,11 +135,7 @@ function App() {
             ghost={false}
             title="Desenvolvedores"
             subTitle="Listagem de desenvolvedores"
-            extra={[
-              <Button key="1" type="primary" icon={<PlusOutlined />} onClick={handleAddNewDeveloper}>
-                Adicionar
-            </Button>
-            ]}
+            extra={extraHeader}
           >
             <SearchForm onSearch={handleSearch} />
           </PageHeader>
