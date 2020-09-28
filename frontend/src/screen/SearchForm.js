@@ -17,30 +17,45 @@ const FIELDS = [
     label: 'Nome',
     colProps: {
       md: 6,
+      sm: 12,
+      xs: 12,
     },
-    component: <Input />
+    component: <Input allowClear />
   },
   {
     name: 'hobby',
     label: 'Hobby',
     colProps: {
       md: 5,
+      sm: 12,
+      xs: 12,
     },
-    component: <Input />
+    component: <Input allowClear />
   },
   {
     name: 'birthday',
     label: 'Data de nascimento',
     colProps: {
       md: 5,
+      sm: 12,
+      xs: 12,
     },
-    component: <DatePicker format="DD/MM/YYYY" className={styles.fixInputWidth} />
+    component: (
+      <DatePicker
+        format="DD/MM/YYYY"
+        placeholder="Selecione"
+        className={styles.fixInputWidth}
+        allowClear
+      />
+    ),
   },
   {
     name: 'age',
     label: 'Idade',
     colProps: {
       md: 4,
+      sm: 12,
+      xs: 12,
     },
     component: <InputNumber className={styles.fixInputWidth} />
   },
@@ -49,9 +64,11 @@ const FIELDS = [
     label: 'Sexo',
     colProps: {
       md: 4,
+      sm: 12,
+      xs: 12,
     },
     component: (
-      <Select>
+      <Select placeholder="Selecione" allowClear>
         <Select.Option value="M">Masculino</Select.Option>
         <Select.Option value="F">Feminino</Select.Option>
         <Select.Option value="X">Outro</Select.Option>

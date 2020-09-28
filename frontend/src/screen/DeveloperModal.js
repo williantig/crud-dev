@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useCallback } from 'react';
+import React, { forwardRef, useState, useCallback, memo } from 'react';
 
 import {
   Modal, Form, Input,
@@ -13,6 +13,10 @@ const REQUIRED_RULES = [{
   required: true,
 }];
 
+const VALIDATE_MESSAGE = {
+  required: 'Este campo é requerido',
+};
+
 const FIELDS = [
   {
     name: 'name',
@@ -21,16 +25,23 @@ const FIELDS = [
       md: 6,
     },
     rules: REQUIRED_RULES,
-    component: <Input />
+    component: <Input maxLength={200} />
   },
   {
     name: 'birthday',
     label: 'Data de nascimento',
+    placeholder: 'Selecione',
     colProps: {
       md: 5,
     },
     rules: REQUIRED_RULES,
-    component: <DatePicker format="DD/MM/YYYY" className={styles.fixInputWidth} />
+    component: (
+      <DatePicker
+        format="DD/MM/YYYY"
+        placeholder="Selecione"
+        className={styles.fixInputWidth}
+      />
+    ),
   },
   {
     name: 'age',
@@ -49,7 +60,7 @@ const FIELDS = [
     },
     rules: REQUIRED_RULES,
     component: (
-      <Select>
+      <Select placeholder="Selecione">
         <Select.Option value="M">Masculino</Select.Option>
         <Select.Option value="F">Feminino</Select.Option>
         <Select.Option value="X">Outro</Select.Option>
@@ -62,7 +73,7 @@ const FIELDS = [
     colProps: {
       md: 5,
     },
-    component: <Input />
+    component: <Input maxLength={50} />
   },
 ];
 
@@ -71,6 +82,7 @@ const DeveloperModal = forwardRef((props, $ref) => {
 
   const { refreshList } = props;
 
+  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [currentDeveloper, setCurrentDeveloper] = useState(null);
 
@@ -96,6 +108,7 @@ const DeveloperModal = forwardRef((props, $ref) => {
   const handleSave = useCallback(async () => {
     form.validateFields()
       .then(async values => {
+        setLoading(true);
         if (currentDeveloper?.id) {
           const { id } = currentDeveloper;
           await axios.put(`/developers/${id}`, values);
@@ -105,6 +118,8 @@ const DeveloperModal = forwardRef((props, $ref) => {
         console.log(values);
         await refreshList();
         handleDismiss();
+      }).finally(() => {
+        setLoading(false);
       });
   }, [form, currentDeveloper, refreshList, handleDismiss]);
 
@@ -124,16 +139,30 @@ const DeveloperModal = forwardRef((props, $ref) => {
       cancelText="Cancelar"
       onOk={handleSave}
       afterClose={clearForm}
+      confirmLoading={loading}
     >
-      <Form form={form} name="createUpdate" layout="vertical">
-        {FIELDS.map(field => (
-          <Form.Item key={field.name} name={field.name} label={field.label} rules={field.rules}>
-            {field.component}
-          </Form.Item>
-        ))}
+      <Form
+        form={form}
+        name="createUpdate"
+        layout="vertical"
+        validateMessages={VALIDATE_MESSAGE}
+      >
+        {FIELDS.map(field => {
+          const { name, label, rules, component } = field;
+          return (
+            <Form.Item
+              key={name}
+              name={name}
+              label={label}
+              rules={rules}
+            >
+              {component}
+            </Form.Item>
+          );
+        })}
       </Form>
     </Modal>
   )
 });
 
-export default DeveloperModal;
+export default memo(DeveloperModal);

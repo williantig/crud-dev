@@ -85,12 +85,6 @@ function App() {
     } : {}
   ), [pagination, requestDevelopers]);
 
-  const extraHeader = useMemo(() => ([
-    <Button key="1" type="primary" icon={<PlusOutlined />} onClick={handleAddNewDeveloper}>
-      Adicionar
-    </Button>,
-  ]), [handleAddNewDeveloper]);
-
   const handleEditDeveloper = useCallback(developer => {
     $modalRef.current.show(developer);
   }, []);
@@ -98,6 +92,12 @@ function App() {
   const handleAddNewDeveloper = useCallback(() => {
     $modalRef.current.show({});
   }, []);
+
+  const extraHeader = useMemo(() => ([
+    <Button key="1" type="primary" icon={<PlusOutlined />} onClick={handleAddNewDeveloper}>
+      Adicionar
+    </Button>,
+  ]), [handleAddNewDeveloper]);
 
   const renderActions = useCallback(record => {
     return (
